@@ -16,47 +16,54 @@
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #f8f9fa;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
       overflow-x: hidden;
+      padding: 0;
+      margin: 0;
     }
     
-    .container {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
+    /* 헤더 영역 - Fixed Top */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      padding: 20px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+      z-index: 1000;
     }
     
     .title {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 600;
       color: #020202;
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     
     .subtitle {
-      font-size: 14px;
+      font-size: 13px;
       color: #A1A1A1;
       text-align: center;
-      margin-bottom: 16px;
     }
     
-    .upload-area {
+    /* 메인 컨테이너 */
+    .container {
       width: 100%;
-      background: white;
-      border-radius: 12px;
-      padding: 32px 24px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.13), 0px 0px 4px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
+      padding-top: 60px;
+      padding-bottom: 80px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      justify-content: center;
+    }
+    
+    /* 업로드 영역 */
+    .upload-area {
+      width: calc(100% - 32px);
+      max-width: 420px;
+      margin: 0 16px;
     }
     
     .file-input-wrapper {
@@ -64,31 +71,47 @@
       position: relative;
     }
     
+    /* 파일 선택 라벨 - 기본 상태 */
     .file-input-label {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       width: 100%;
-      min-height: 200px;
+      aspect-ratio: 1 / 1;
+      max-height: 70vh;
       border: 2px dashed #D0D0D0;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s;
-      background: #FBFBFB;
+      overflow: hidden;
+      position: relative;
     }
     
-    .file-input-label:hover {
-      border-color: #007AFF;
-      background: #F5F8FF;
+    .file-input-label:active {
+      transform: scale(0.98);
     }
     
+    /* 파일 선택 시 */
     .file-input-label.has-file {
-      border-color: #007AFF;
-      border-style: solid;
+      border: 2px solid #007AFF;
+      padding: 0;
     }
     
     input[type="file"] {
+      display: none;
+    }
+    
+    /* 업로드 아이콘 및 텍스트 */
+    .upload-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s;
+    }
+    
+    .upload-content.hidden {
       display: none;
     }
     
@@ -106,47 +129,60 @@
     }
     
     .upload-hint {
-      font-size: 14px;
+      font-size: 13px;
       color: #A1A1A1;
     }
     
-    .preview-container {
-      width: 100%;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-    
-    .preview-container.show {
-      display: flex;
-    }
-    
+    /* 미리보기 이미지 */
     .preview-image {
       width: 100%;
-      max-height: 300px;
+      height: 100%;
       object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      display: none;
+      border-radius: 10px;
     }
     
+    .preview-image.show {
+      display: block;
+    }
+    
+    /* 파일 정보 */
     .preview-info {
-      font-size: 14px;
-      color: #777777;
-      text-align: center;
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: #ffffff;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 6px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      max-width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: none;
     }
     
+    .preview-info.show {
+      display: block;
+    }
+    
+    /* 전송 버튼 - Fixed Bottom */
     .submit-button {
+      position: fixed;
+      bottom: 3vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
       width: 100%;
-      max-width: 300px;
       height: 56px;
       border-radius: 12px;
       background: #007AFF;
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.13), 0px 0px 4px rgba(0, 0, 0, 0.1);
       color: #fff;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 600;
-      line-height: 24px;
       border: none;
       cursor: pointer;
       display: flex;
@@ -154,17 +190,11 @@
       justify-content: center;
       transition: all 0.2s;
       font-family: 'Pretendard', sans-serif;
-      margin-top: 8px;
-    }
-    
-    .submit-button:hover:not(:disabled) {
-      background: #0066DD;
-      transform: translateY(-1px);
-      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15), 0px 0px 6px rgba(0, 0, 0, 0.12);
+      z-index: 999;
     }
     
     .submit-button:active:not(:disabled) {
-      transform: translateY(0);
+      transform: translateX(-50%) scale(0.98);
     }
     
     .submit-button:disabled {
@@ -173,15 +203,22 @@
       box-shadow: none;
     }
     
+    /* 상태 메시지 */
     .status-message {
-      width: 100%;
-      padding: 16px;
+      position: fixed;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 388px;
+      padding: 14px 16px;
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       text-align: center;
       display: none;
       animation: slideIn 0.3s ease-out;
+      z-index: 1001;
     }
     
     .status-message.show {
@@ -208,13 +245,13 @@
     
     .loading-spinner {
       display: inline-block;
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       border: 2px solid #007AFF;
       border-top: 2px solid transparent;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin-right: 8px;
+      margin-right: 6px;
       vertical-align: middle;
     }
     
@@ -226,26 +263,63 @@
     @keyframes slideIn {
       from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateX(-50%) translateY(-10px);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(-50%) translateY(0);
       }
     }
     
-    /* 모바일 최적화 */
-    @media (max-width: 600px) {
+    /* 모바일 최적화 (365px ~ 420px) */
+    @media (max-width: 420px) and (min-width: 365px) {
+      .header {
+        padding: 16px;
+      }
+      
       .title {
-        font-size: 20px;
+        font-size: 18px;
       }
       
-      .upload-area {
-        padding: 24px 16px;
+      .subtitle {
+        font-size: 12px;
       }
       
-      .file-input-label {
-        min-height: 180px;
+      .container {
+        padding-top: 80px;
+        padding-bottom: 90px;
+      }
+      
+      .upload-icon {
+        width: 56px;
+        height: 56px;
+      }
+      
+      .upload-text {
+        font-size: 15px;
+      }
+      
+      .upload-hint {
+        font-size: 12px;
+      }
+      
+      .submit-button {
+        height: 52px;
+        font-size: 17px;
+      }
+    }
+    
+    @media (max-width: 364px) {
+      .header {
+        padding: 14px;
+      }
+      
+      .title {
+        font-size: 17px;
+      }
+      
+      .subtitle {
+        font-size: 11px;
       }
       
       .upload-icon {
@@ -253,44 +327,55 @@
         height: 48px;
       }
       
+      .upload-text {
+        font-size: 14px;
+      }
+      
+      .upload-hint {
+        font-size: 11px;
+      }
+      
       .submit-button {
-        height: 52px;
-        font-size: 18px;
+        height: 50px;
+        font-size: 16px;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Fixed Header -->
+  <div class="header">
+    <h1 class="title">레퍼런스 이미지 업로드</h1>
+    <p class="subtitle">캔버스에서 사용할 이미지를 업로드하세요</p>
+  </div>
+  
+  <!-- Main Container -->
   <div class="container">
-    <div>
-      <h1 class="title">레퍼런스 이미지 업로드</h1>
-      <p class="subtitle">캔버스에서 사용할 이미지를 업로드하세요</p>
-    </div>
-    
     <div class="upload-area">
       <div class="file-input-wrapper">
         <label for="fileInput" class="file-input-label" id="fileLabel">
-          <svg class="upload-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M32 8L32 40" stroke="#007AFF" stroke-width="4" stroke-linecap="round"/>
-            <path d="M20 20L32 8L44 20" stroke="#007AFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 32V52C12 54.2091 13.7909 56 16 56H48C50.2091 56 52 54.2091 52 52V32" stroke="#007AFF" stroke-width="4" stroke-linecap="round"/>
-          </svg>
-          <div class="upload-text">이미지 선택하기</div>
-          <div class="upload-hint">JPG, PNG 파일을 선택하세요</div>
+          <div class="upload-content" id="uploadContent">
+            <svg class="upload-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M32 8L32 40" stroke="#007AFF" stroke-width="4" stroke-linecap="round"/>
+              <path d="M20 20L32 8L44 20" stroke="#007AFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 32V52C12 54.2091 13.7909 56 16 56H48C50.2091 56 52 54.2091 52 52V32" stroke="#007AFF" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+            <div class="upload-text">이미지 선택하기</div>
+            <div class="upload-hint">JPG, PNG 파일을 선택하세요</div>
+          </div>
+          <img id="previewImage" class="preview-image" src="" alt="미리보기" />
+          <div class="preview-info" id="previewInfo"></div>
         </label>
         <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png" />
       </div>
-      
-      <div class="preview-container" id="previewContainer">
-        <img id="previewImage" class="preview-image" src="" alt="미리보기" />
-        <div class="preview-info" id="previewInfo"></div>
-      </div>
     </div>
-    
-    <button class="submit-button" id="submitButton" disabled>전송</button>
-    
-    <div class="status-message" id="statusMessage"></div>
   </div>
+  
+  <!-- Fixed Bottom Button -->
+  <button class="submit-button" id="submitButton" disabled>전송</button>
+  
+  <!-- Status Message -->
+  <div class="status-message" id="statusMessage"></div>
 
   <!-- Firebase SDK (v10.7.1) -->
   <script type="module">
@@ -316,7 +401,7 @@
     const fileInput = document.getElementById('fileInput');
     const fileLabel = document.getElementById('fileLabel');
     const submitButton = document.getElementById('submitButton');
-    const previewContainer = document.getElementById('previewContainer');
+    const uploadContent = document.getElementById('uploadContent');
     const previewImage = document.getElementById('previewImage');
     const previewInfo = document.getElementById('previewInfo');
     const statusMessage = document.getElementById('statusMessage');
@@ -351,7 +436,9 @@
       if (!file) {
         selectedFile = null;
         submitButton.disabled = true;
-        previewContainer.classList.remove('show');
+        uploadContent.classList.remove('hidden');
+        previewImage.classList.remove('show');
+        previewInfo.classList.remove('show');
         fileLabel.classList.remove('has-file');
         return;
       }
@@ -374,12 +461,16 @@
       submitButton.disabled = false;
       fileLabel.classList.add('has-file');
       
+      // 업로드 콘텐츠 숨기고 미리보기 표시
+      uploadContent.classList.add('hidden');
+      
       // 미리보기 생성
       const reader = new FileReader();
       reader.onload = (e) => {
         previewImage.src = e.target.result;
+        previewImage.classList.add('show');
         previewInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
-        previewContainer.classList.add('show');
+        previewInfo.classList.add('show');
       };
       reader.readAsDataURL(file);
       
@@ -417,7 +508,9 @@
           fileInput.value = '';
           selectedFile = null;
           submitButton.disabled = true;
-          previewContainer.classList.remove('show');
+          uploadContent.classList.remove('hidden');
+          previewImage.classList.remove('show');
+          previewInfo.classList.remove('show');
           fileLabel.classList.remove('has-file');
           statusMessage.className = 'status-message';
         }, 2000);
@@ -444,15 +537,15 @@
     // 드래그 앤 드롭 지원
     fileLabel.addEventListener('dragover', (e) => {
       e.preventDefault();
-      fileLabel.style.borderColor = '#007AFF';
-      fileLabel.style.background = '#F5F8FF';
+      if (!selectedFile) {
+        fileLabel.style.borderColor = '#007AFF';
+      }
     });
 
     fileLabel.addEventListener('dragleave', (e) => {
       e.preventDefault();
       if (!selectedFile) {
         fileLabel.style.borderColor = '#D0D0D0';
-        fileLabel.style.background = '#FBFBFB';
       }
     });
 
@@ -464,7 +557,6 @@
         fileInput.dispatchEvent(new Event('change'));
       }
       fileLabel.style.borderColor = '#D0D0D0';
-      fileLabel.style.background = '#FBFBFB';
     });
 
     console.log('🚀 이미지 업로드 시스템이 준비되었습니다.');
